@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CalcPro – The Smartest Online Calculator</title>
+    <meta name="description" content="Experience the most intuitive and powerful online calculator. Perform basic and scientific calculations with history, memory, and real-time results." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+        /* ======================================================
+                   RESET & BASE
+                ====================================================== */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --primary-light: #818cf8;
+            --secondary: #0ea5e9;
+            --accent: #8b5cf6;
+            --gradient-main: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            --gradient-bg: linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-light: #94a3b8;
+            --bg-white: #ffffff;
+            --bg-gray: #f1f5f9;
+            --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.06);
+            --shadow-md: 0 8px 30px rgba(79, 70, 229, 0.12);
+            --shadow-lg: 0 20px 60px rgba(79, 70, 229, 0.18);
+            --shadow-xl: 0 30px 80px rgba(79, 70, 229, 0.25);
+            --radius-sm: 12px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --radius-xl: 32px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font);
+            color: var(--text-primary);
+            background: var(--bg-white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 640px;
+            margin: 0 auto 56px;
+        }
+
+        .section-header .tag {
+            display: inline-block;
+            background: rgba(79, 70, 229, 0.10);
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 4px 16px;
+            border-radius: 40px;
+            margin-bottom: 12px;
+        }
+
+        .section-header h2 {
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-top: 12px;
+        }
+
+        /* ======================================================
+                   BUTTONS
+                ====================================================== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 36px;
+            border: none;
+            border-radius: 60px;
+            font-family: var(--font);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: var(--gradient-main);
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(79, 70, 229, 0.35);
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 36px rgba(79, 70, 229, 0.45);
+        }
+
+        .btn-secondary {
+            background: var(--bg-white);
+            color: var(--text-primary);
+            border: 1px solid #e2e8f0;
+        }
+        .btn-secondary:hover {
+            background: var(--bg-gray);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-outline-light {
+            background: transparent;
+            color: #fff;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        .btn-outline-light:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: #fff;
+            transform: translateY(-3px);
+        }
+
+        .btn-sm {
+            padding: 10px 24px;
+            font-size: 0.875rem;
+        }
+
+        /* ======================================================
+                   HEADER / NAV
+                ====================================================== */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 16px 0;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(79, 70, 229, 0.06);
+            transition: var(--transition);
+        }
+        .header.scrolled {
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        .header .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 800;
+            font-size: 1.4rem;
+            color: var(--text-primary);
+        }
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-main);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 1.2rem;
+        }
+        .logo span {
+            background: var(--gradient-main);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            list-style: none;
+        }
+        .nav-links a {
+            font-weight: 500;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            transition: var(--transition);
+            position: relative;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-main);
+            transition: var(--transition);
+            border-radius: 4px;
+        }
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 6px;
+            background: none;
+            border: none;
+        }
+        .hamburger span {
+            width: 28px;
+            height: 3px;
+            background: var(--text-primary);
+            border-radius: 4px;
+            transition: var(--transition);
+        }
+
+        /* ======================================================
+                   HERO
+                ====================================================== */
+        .hero {
+            padding: 140px 0 80px;
+            background: var(--gradient-bg);
+            position: relative;
+            overflow: hidden;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 20% 50%, rgba(79, 70, 229, 0.12) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, rgba(14, 165, 233, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 80%, rgba(139, 92, 246, 0.10) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        /* Floating shapes */
+        .hero .shape {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: floatShape 14s ease-in-out infinite alternate;
+        }
+        .hero .shape-1 {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(79, 70, 229, 0.15), transparent 70%);
+            top: -80px;
+            right: -80px;
+            animation-delay: 0s;
+        }
+        .hero .shape-2 {
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(14, 165, 233, 0.12), transparent 70%);
+            bottom: -40px;
+            left: -40px;
+            animation-delay: 5s;
+        }
+        .hero .shape-3 {
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.15), transparent 70%);
+            top: 40%;
+            left: 60%;
+            animation-delay: 10s;
+        }
+
+        @keyframes floatShape {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                transform: translate(40px, -30px) scale(1.1);
+            }
+        }
+
+        .hero .container {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-size: clamp(2.8rem, 5.5vw, 4.2rem);
+            font-weight: 900;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+        }
+        .hero-content h1 .highlight {
+            background: var(--gradient-main);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero-content p {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            margin: 20px 0 36px;
+            max-width: 480px;
+            line-height: 1.7;
+        }
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .hero-stats {
+            display: flex;
+            gap: 40px;
+            margin-top: 48px;
+            padding-top: 32px;
+            border-top: 1px solid #e2e8f0;
+        }
+        .hero-stats .stat {
+            display: flex;
+            flex-direction: column;
+        }
+        .hero-stats .stat-number {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+        .hero-stats .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        /* Hero Visual - Calculator Mockup */
+        .hero-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .calc-mockup {
+            background: #0f172a;
+            border-radius: var(--radius-xl);
+            padding: 24px 20px 28px;
+            width: 100%;
+            max-width: 380px;
+            box-shadow: var(--shadow-xl);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transform: perspective(800px) rotateY(-6deg) rotateX(4deg);
+            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .calc-mockup:hover {
+            transform: perspective(800px) rotateY(0deg) rotateX(0deg);
+        }
+
+        .calc-mockup .display {
+            background: #1e293b;
+            border-radius: var(--radius-sm);
+            padding: 16px 20px 12px;
+            margin-bottom: 20px;
+            min-height: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: flex-end;
+            border: 1px solid #334155;
+        }
+        .calc-mockup .display .expr {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            min-height: 1.4rem;
+            text-align: right;
+            width: 100%;
+        }
+        .calc-mockup .display .result {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #f8fafc;
+            text-align: right;
+            width: 100%;
+            letter-spacing: -0.5px;
+        }
+
+        .calc-mockup .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        .calc-mockup .grid .btn-mock {
+            padding: 14px 6px;
+            background: #1e293b;
+            border-radius: var(--radius-sm);
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #cbd5e1;
+            border: 1px solid #334155;
+            transition: var(--transition);
+            cursor: default;
+        }
+        .calc-mockup .grid .btn-mock.op {
+            background: #2d3748;
+            color: #818cf8;
+            border-color: #4f46e5;
+        }
+        .calc-mockup .grid .btn-mock.eq {
+            background: var(--gradient-main);
+            color: #fff;
+            border-color: transparent;
+        }
+        .calc-mockup .grid .btn-mock.span2 {
+            grid-column: span 2;
+        }
+
+        /* ======================================================
+                   FEATURES
+                ====================================================== */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 30px;
+        }
+        .feature-card {
+            background: var(--bg-white);
+            padding: 32px 24px;
+            border-radius: var(--radius-md);
+            border: 1px solid #f1f5f9;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            text-align: center;
+        }
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: rgba(79, 70, 229, 0.15);
+        }
+        .feature-card .icon-wrap {
+            width: 56px;
+            height: 56px;
+            margin: 0 auto 16px;
+            border-radius: var(--radius-sm);
+            background: rgba(79, 70, 229, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            color: var(--primary);
+        }
+        .feature-card h4 {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 6px;
+        }
+        .feature-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* ======================================================
+                   HOW IT WORKS
+                ====================================================== */
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-top: 20px;
+        }
+        .step-item {
+            text-align: center;
+            position: relative;
+        }
+        .step-item .step-number {
+            width: 56px;
+            height: 56px;
+            margin: 0 auto 16px;
+            background: var(--gradient-main);
+            color: #fff;
+            font-weight: 800;
+            font-size: 1.4rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .step-item h4 {
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .step-item p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+        .step-item .connector {
+            position: absolute;
+            top: 28px;
+            right: -20px;
+            width: 40px;
+            height: 2px;
+            background: #e2e8f0;
+        }
+        .step-item:last-child .connector {
+            display: none;
+        }
+
+        /* ======================================================
+                   TESTIMONIALS
+                ====================================================== */
+        .section.bg-gray {
+            background: var(--bg-gray);
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 30px;
+        }
+        .testimonial-card {
+            background: var(--bg-white);
+            padding: 28px 24px;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid #f1f5f9;
+            transition: var(--transition);
+        }
+        .testimonial-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-4px);
+        }
+        .testimonial-card .stars {
+            color: #f59e0b;
+            margin-bottom: 12px;
+            letter-spacing: 2px;
+        }
+        .testimonial-card blockquote {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            font-style: italic;
+            margin-bottom: 16px;
+        }
+        .testimonial-card .author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .testimonial-card .author .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gradient-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 700;
+        }
+        .testimonial-card .author .name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .testimonial-card .author .role {
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        /* ======================================================
+                   CTA SECTION
+                ====================================================== */
+        .cta-section {
+            background: var(--gradient-main);
+            padding: 80px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 20% 50%, rgba(255, 255, 255, 0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .cta-section .container {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: #fff;
+        }
+        .cta-section h2 {
+            font-size: clamp(2.2rem, 4vw, 3rem);
+            font-weight: 800;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+        .cta-section p {
+            max-width: 520px;
+            margin: 0 auto 36px;
+            font-size: 1.1rem;
+            opacity: 0.85;
+        }
+        .cta-section .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 16px;
+        }
+
+        /* ======================================================
+                   FOOTER
+                ====================================================== */
+        .footer {
+            background: #0f172a;
+            color: rgba(255, 255, 255, 0.6);
+            padding: 48px 0 32px;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        .footer .container {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+        }
+        .footer-brand .logo {
+            color: #fff;
+            margin-bottom: 12px;
+        }
+        .footer-brand p {
+            font-size: 0.9rem;
+            max-width: 260px;
+        }
+        .footer h4 {
+            color: #fff;
+            font-weight: 600;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+        }
+        .footer ul {
+            list-style: none;
+        }
+        .footer ul li {
+            margin-bottom: 8px;
+        }
+        .footer ul a {
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+        .footer ul a:hover {
+            color: #fff;
+        }
+        .footer-bottom {
+            grid-column: 1 / -1;
+            padding-top: 24px;
+            margin-top: 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            text-align: center;
+            font-size: 0.85rem;
+        }
+
+        /* ======================================================
+                   RESPONSIVE
+                ====================================================== */
+        @media (max-width: 1024px) {
+            .hero .container {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 40px;
+            }
+            .hero-content p {
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .hero-actions {
+                justify-content: center;
+            }
+            .hero-stats {
+                justify-content: center;
+            }
+            .calc-mockup {
+                transform: perspective(800px) rotateY(0deg) rotateX(0deg);
+                margin: 0 auto;
+            }
+            .steps-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 30px;
+            }
+            .step-item .connector {
+                display: none;
+            }
+        }
+
+        @media (max-width: 820px) {
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 280px;
+                height: 100vh;
+                background: var(--bg-white);
+                flex-direction: column;
+                justify-content: center;
+                gap: 24px;
+                padding: 40px 32px;
+                box-shadow: -8px 0 40px rgba(0, 0, 0, 0.06);
+                transition: var(--transition);
+                border-left: 1px solid #f1f5f9;
+            }
+            .nav-links.open {
+                right: 0;
+            }
+            .nav-links a {
+                font-size: 1.1rem;
+            }
+            .hamburger {
+                display: flex;
+            }
+            .hamburger.open span:nth-child(1) {
+                transform: rotate(45deg) translate(6px, 6px);
+            }
+            .hamburger.open span:nth-child(2) {
+                opacity: 0;
+            }
+            .hamburger.open span:nth-child(3) {
+                transform: rotate(-45deg) translate(6px, -6px);
+            }
+            .hero {
+                padding: 120px 0 60px;
+                min-height: auto;
+            }
+            .footer .container {
+                grid-template-columns: 1fr 1fr;
+                gap: 32px;
+            }
+            .footer-brand {
+                grid-column: 1 / -1;
+            }
+        }
+
+        @media (max-width: 560px) {
+            .container {
+                padding: 0 16px;
+            }
+            .hero {
+                padding: 100px 0 48px;
+            }
+            .hero-stats {
+                gap: 24px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .hero-stats .stat-number {
+                font-size: 1.4rem;
+            }
+            .section {
+                padding: 56px 0;
+            }
+            .section-header {
+                margin-bottom: 32px;
+            }
+            .section-header h2 {
+                font-size: 1.6rem;
+            }
+            .features-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 16px;
+            }
+            .steps-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+            .testimonial-grid {
+                grid-template-columns: 1fr;
+            }
+            .footer .container {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+            .btn {
+                padding: 14px 28px;
+                font-size: 0.9rem;
+            }
+            .calc-mockup {
+                max-width: 300px;
+                padding: 16px 14px 20px;
+            }
+            .calc-mockup .grid .btn-mock {
+                padding: 10px 4px;
+                font-size: 0.8rem;
+            }
+            .calc-mockup .display .result {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+        }
+
+        /* ======================================================
+                   ANIMATIONS (Fade Up)
+                ====================================================== */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        .fade-up:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+        .fade-up:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+        .fade-up:nth-child(4) {
+            animation-delay: 0.3s;
+        }
+        .fade-up:nth-child(5) {
+            animation-delay: 0.4s;
+        }
+        .fade-up:nth-child(6) {
+            animation-delay: 0.5s;
+        }
+
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================
+    HEADER
+    ============================================================ -->
+    <header class="header" id="header">
+        <div class="container">
+            <a href="#" class="logo">
+                <div class="logo-icon"><i class="fas fa-calculator"></i></div>
+                Calc<span>Pro</span>
+            </a>
+
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#how-it-works">How It Works</a></li>
+                <li><a href="#testimonials">Testimonials</a></li>
+                <li><a href="#cta" class="btn btn-primary btn-sm">Launch Calculator</a></li>
+            </ul>
+
+            <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- ============================================================
+    HERO
+    ============================================================ -->
+    <section class="hero" id="home">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+
+        <div class="container">
+            <div class="hero-content">
+                <h1>
+                    Calculate Smarter, <br />
+                    <span class="highlight">Not Harder</span>
+                </h1>
+                <p>
+                    The most intuitive online calculator for students, professionals, and
+                    everyday math. Perform basic and scientific operations with history,
+                    memory, and real-time results.
+                </p>
+                <div class="hero-actions">
+                    <a href="#cta" class="btn btn-primary">
+                        <i class="fas fa-rocket"></i> Start Calculating
+                    </a>
+                    <a href="#features" class="btn btn-secondary">
+                        <i class="fas fa-chevron-circle-down"></i> Explore Features
+                    </a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number">10k+</span>
+                        <span class="stat-label">Calculations Daily</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">4.9★</span>
+                        <span class="stat-label">User Rating</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">100%</span>
+                        <span class="stat-label">Free to Use</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <div class="calc-mockup">
+                    <div class="display">
+                        <div class="expr">123 + 456</div>
+                        <div class="result">579</div>
+                    </div>
+                    <div class="grid">
+                        <div class="btn-mock">C</div>
+                        <div class="btn-mock">±</div>
+                        <div class="btn-mock">%</div>
+                        <div class="btn-mock op">÷</div>
+                        <div class="btn-mock">7</div>
+                        <div class="btn-mock">8</div>
+                        <div class="btn-mock">9</div>
+                        <div class="btn-mock op">×</div>
+                        <div class="btn-mock">4</div>
+                        <div class="btn-mock">5</div>
+                        <div class="btn-mock">6</div>
+                        <div class="btn-mock op">−</div>
+                        <div class="btn-mock">1</div>
+                        <div class="btn-mock">2</div>
+                        <div class="btn-mock">3</div>
+                        <div class="btn-mock op">+</div>
+                        <div class="btn-mock span2">0</div>
+                        <div class="btn-mock">.</div>
+                        <div class="btn-mock eq">=</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    FEATURES
+    ============================================================ -->
+    <section class="section" id="features">
+        <div class="container">
+            <div class="section-header fade-up">
+                <span class="tag"><i class="fas fa-star"></i> Why CalcPro</span>
+                <h2>Everything you need in a calculator</h2>
+                <p>Designed to be fast, reliable, and packed with smart features that make everyday math effortless.</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card fade-up">
+                    <div class="icon-wrap"><i class="fas fa-calculator"></i></div>
+                    <h4>Basic &amp; Scientific</h4>
+                    <p>From simple arithmetic to trigonometry and logarithms, we've got you covered.</p>
+                </div>
+                <div class="feature-card fade-up">
+                    <div class="icon-wrap"><i class="fas fa-history"></i></div>
+                    <h4>Real-time History</h4>
+                    <p>Never lose track of your calculations. Access your full history instantly.</p>
+                </div>
+                <div class="feature-card fade-up">
+                    <div class="icon-wrap"><i class="fas fa-memory"></i></div>
+                    <h4>Memory Functions</h4>
+                    <p>Store, recall, and manage values with dedicated memory buttons (M+, MR, MC).</p>
+                </div>
+                <div class="feature-card fade-up">
+                    <div class="icon-wrap"><i class="fas fa-mobile-alt"></i></div>
+                    <h4>Fully Responsive</h4>
+                    <p>Works flawlessly on desktop, tablet, or mobile. Calculate on the go.</p>
+                </div>
+                <div class="feature-card fade-up">
+                    <div class="icon-wrap"><i class="fas fa-bolt"></i></div>
+                    <h4>Instant Results</h4>
+                    <p>See results update in real-time as you type. No page reloads or delays.</p>
+                </div>
+                <div class="feature-card fade-up">
+                    <div class="icon-wrap"><i class="fas fa-shield-alt"></i></div>
+                    <h4>100% Private</h4>
+                    <p>Your calculations never leave your device. Complete privacy guaranteed.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    HOW IT WORKS
+    ============================================================ -->
+    <section class="section bg-gray" id="how-it-works">
+        <div class="container">
+            <div class="section-header fade-up">
+                <span class="tag"><i class="fas fa-route"></i> Getting Started</span>
+                <h2>Calculate in 3 simple steps</h2>
+                <p>No sign-ups, no downloads. Just open and start calculating.</p>
+            </div>
+
+            <div class="steps-grid">
+                <div class="step-item fade-up">
+                    <div class="step-number">1</div>
+                    <h4>Open the Calculator</h4>
+                    <p>Click the "Launch Calculator" button or navigate to the tool page.</p>
+                    <div class="connector"></div>
+                </div>
+                <div class="step-item fade-up">
+                    <div class="step-number">2</div>
+                    <h4>Enter Your Numbers</h4>
+                    <p>Use the on-screen buttons or your keyboard to type in the expression.</p>
+                    <div class="connector"></div>
+                </div>
+                <div class="step-item fade-up">
+                    <div class="step-number">3</div>
+                    <h4>Get Instant Results</h4>
+                    <p>Hit '=' or press Enter to see the result. That's it!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    TESTIMONIALS
+    ============================================================ -->
+    <section class="section" id="testimonials">
+        <div class="container">
+            <div class="section-header fade-up">
+                <span class="tag"><i class="fas fa-quote-left"></i> Testimonials</span>
+                <h2>What our users say</h2>
+                <p>Join thousands of happy users who rely on CalcPro for their daily math needs.</p>
+            </div>
+
+            <div class="testimonial-grid">
+                <div class="testimonial-card fade-up">
+                    <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <blockquote>"This is the best online calculator I've ever used. The scientific mode is a lifesaver for my engineering homework."</blockquote>
+                    <div class="author">
+                        <div class="avatar">JD</div>
+                        <div>
+                            <div class="name">Jessica Davis</div>
+                            <div class="role">Engineering Student</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card fade-up">
+                    <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <blockquote>"I love the history feature. It lets me double-check my work without having to write everything down. Super intuitive."</blockquote>
+                    <div class="author">
+                        <div class="avatar">MR</div>
+                        <div>
+                            <div class="name">Michael Roberts</div>
+                            <div class="role">Financial Analyst</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card fade-up">
+                    <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <blockquote>"Finally, a calculator that works perfectly on my phone. The responsive design is flawless and it's completely free!"</blockquote>
+                    <div class="author">
+                        <div class="avatar">SW</div>
+                        <div>
+                            <div class="name">Sarah Wilson</div>
+                            <div class="role">Freelance Designer</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    CTA SECTION
+    ============================================================ -->
+    <section class="cta-section" id="cta">
+        <div class="container">
+            <h2>Ready to calculate smarter?</h2>
+            <p>Jump right in and experience the most user-friendly calculator on the web.</p>
+            <div class="btn-group">
+                <a href="#" class="btn btn-primary" style="background: #fff; color: #4f46e5;">
+                    <i class="fas fa-arrow-right"></i> Launch Calculator Now
+                </a>
+                <a href="#features" class="btn btn-outline-light">
+                    <i class="fas fa-info-circle"></i> Learn More
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    FOOTER
+    ============================================================ -->
+    <footer class="footer" id="contact">
+        <div class="container">
+            <div class="footer-brand">
+                <a href="#" class="logo">
+                    <div class="logo-icon"><i class="fas fa-calculator"></i></div>
+                    Calc<span>Pro</span>
+                </a>
+                <p>The smartest online calculator for everyday math, science, and finance.</p>
+            </div>
+
+            <div>
+                <h4>Product</h4>
+                <ul>
+                    <li><a href="#">Calculator</a></li>
+                    <li><a href="#">Scientific Mode</a></li>
+                    <li><a href="#">History</a></li>
+                    <li><a href="#">Memory</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Cookie Policy</a></li>
+                    <li><a href="#">Disclaimer</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-bottom">
+                &copy; 2026 CalcPro. All rights reserved. Built with <i class="fas fa-heart" style="color: #f43f5e;"></i>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ============================================================
+    SCRIPTS
+    ============================================================ -->
+    <script>
+        // ============================================================
+        // HEADER SCROLL EFFECT
+        // ============================================================
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            header.classList.toggle('scrolled', window.scrollY > 40);
+        });
+
+        // ============================================================
+        // MOBILE HAMBURGER
+        // ============================================================
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('open');
+            navLinks.classList.toggle('open');
+        });
+
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('open');
+                navLinks.classList.remove('open');
+            });
+        });
+
+        // ============================================================
+        // SMOOTH SCROLL FOR NAV LINKS
+        // ============================================================
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                const target = document.querySelector(targetId);
+                if (target) {
+                    e.preventDefault();
+                    const offset = 80;
+                    const top = target.getBoundingClientRect().top + window.scrollY - offset;
+                    window.scrollTo({ top, behavior: 'smooth' });
+                }
+            });
+        });
+
+        // ============================================================
+        // INTERSECTION OBSERVER – FADE-UP ANIMATIONS
+        // ============================================================
+        const fadeElements = document.querySelectorAll('.fade-up');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationPlayState = 'running';
+                }
+            });
+        }, { threshold: 0.15 });
+
+        fadeElements.forEach(el => {
+            el.style.animationPlayState = 'paused';
+            observer.observe(el);
+        });
+
+        // ============================================================
+        // KEYBOARD SHORTCUT: ESC to close menu
+        // ============================================================
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (navLinks.classList.contains('open')) {
+                    hamburger.classList.remove('open');
+                    navLinks.classList.remove('open');
+                }
+            }
+        });
+
+        // ============================================================
+        // CONSOLE GREETING
+        // ============================================================
+        console.log('🚀 CalcPro homepage loaded successfully!');
+        console.log('💡 Click "Launch Calculator" to start calculating.');
+    </script>
+
+</body>
+</html>
