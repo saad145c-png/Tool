@@ -1,0 +1,2814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Advanced Scientific Calculator – Free Online Tool</title>
+    <meta name="description" content="Use our free online scientific calculator for basic and advanced math operations. Real-time results, memory functions, and a clean responsive design." />
+    <meta name="keywords" content="calculator, scientific calculator, online calculator, math tool, free calculator, responsive calculator" />
+    <link rel="canonical" href="https://yourdomain.com/calculator" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Advanced Scientific Calculator – Free Online Tool" />
+    <meta property="og:description" content="Perform basic and scientific calculations with real-time results. Fully responsive and SEO optimized." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://yourdomain.com/calculator" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Advanced Scientific Calculator" />
+    <meta name="twitter:description" content="Free online scientific calculator with real-time results." />
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            "name": "Advanced Scientific Calculator",
+            "description": "Free online scientific calculator for basic and advanced math operations.",
+            "applicationCategory": "Utility",
+            "operatingSystem": "All",
+            "browserRequirements": "Requires JavaScript",
+            "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "USD"
+            }
+        }
+    </script>
+
+    <!-- Google AdSense (configure your ad unit ID below) -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-xxxxxxxxxxxxxxxx" crossorigin="anonymous">
+    </script>
+
+    <style>
+        /* ===== RESET & BASE ===== */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        html {
+            font-size: 16px;
+            -webkit-text-size-adjust: 100%;
+        }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #f0f4f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            color: #1a202c;
+        }
+
+        /* ===== MAIN CONTAINER ===== */
+        .app-wrapper {
+            max-width: 520px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        /* ===== AD SLOT – TOP ===== */
+        .ad-slot-top {
+            background: #ffffffdd;
+            border-radius: 16px;
+            padding: 12px;
+            margin-bottom: 20px;
+            text-align: center;
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed #cbd5e1;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            font-size: 0.85rem;
+            color: #94a3b8;
+            transition: border-color 0.2s;
+            position: relative;
+        }
+        .ad-slot-top .ad-label {
+            position: absolute;
+            top: 4px;
+            right: 10px;
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #94a3b8;
+            background: #f1f5f9;
+            padding: 0 6px;
+            border-radius: 4px;
+        }
+        .ad-slot-top.adsbygoogle {
+            border-color: transparent;
+            background: transparent;
+            min-height: auto;
+            padding: 0;
+        }
+
+        /* ===== CALCULATOR CARD ===== */
+        .calculator {
+            background: #ffffff;
+            border-radius: 28px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.10), 0 6px 24px rgba(0, 0, 0, 0.06);
+            padding: 24px 20px 28px;
+            transition: box-shadow 0.3s;
+            backdrop-filter: blur(2px);
+        }
+
+        /* ===== HEADER ===== */
+        .calc-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .calc-header h1 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            background: linear-gradient(135deg, #1e293b, #334155);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .calc-header .badge {
+            font-size: 0.6rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            color: #64748b;
+            background: #f1f5f9;
+            padding: 3px 10px;
+            border-radius: 40px;
+            border: 1px solid #e2e8f0;
+        }
+
+        /* ===== SCIENTIFIC TOGGLE ===== */
+        .mode-toggle {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+        .mode-toggle label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #475569;
+            letter-spacing: 0.3px;
+            cursor: pointer;
+            user-select: none;
+        }
+        .toggle-switch {
+            position: relative;
+            width: 44px;
+            height: 24px;
+            flex-shrink: 0;
+            background: #cbd5e1;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: background 0.25s;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+        }
+        .toggle-switch.active {
+            background: #3b82f6;
+        }
+        .toggle-switch .knob {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+        }
+        .toggle-switch.active .knob {
+            transform: translateX(20px);
+        }
+
+        /* ===== DISPLAY ===== */
+        .display {
+            background: #f8fafc;
+            border-radius: 18px;
+            padding: 16px 20px 12px;
+            margin-bottom: 16px;
+            min-height: 100px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: flex-end;
+            border: 2px solid #eef2f6;
+            transition: border-color 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+        .display:focus-within {
+            border-color: #94a3b8;
+        }
+
+        .display .memory-indicator {
+            position: absolute;
+            top: 10px;
+            left: 14px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: #f59e0b;
+            letter-spacing: 0.5px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .display .memory-indicator.show {
+            opacity: 1;
+        }
+
+        .display .expression {
+            width: 100%;
+            text-align: right;
+            font-size: 1rem;
+            color: #64748b;
+            min-height: 1.6rem;
+            word-break: break-all;
+            line-height: 1.4;
+            font-weight: 400;
+            letter-spacing: 0.2px;
+            transition: color 0.2s;
+            padding-bottom: 4px;
+            border: none;
+            background: transparent;
+            outline: none;
+            resize: none;
+            font-family: inherit;
+            overflow: hidden;
+        }
+        .display .expression:empty::before {
+            content: "0";
+            color: #94a3b8;
+        }
+
+        .display .result {
+            font-size: 2.4rem;
+            font-weight: 700;
+            color: #0f172a;
+            line-height: 1.2;
+            min-height: 3.2rem;
+            text-align: right;
+            width: 100%;
+            letter-spacing: -0.5px;
+            transition: color 0.2s, transform 0.15s;
+            border: none;
+            background: transparent;
+            outline: none;
+            font-family: inherit;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .display .result:empty::before {
+            content: "0";
+            color: #94a3b8;
+            font-weight: 400;
+        }
+        .display .result.pop {
+            animation: pop 0.12s ease;
+        }
+        @keyframes pop {
+            0% {
+                transform: scale(0.96);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .display .error {
+            color: #ef4444 !important;
+        }
+
+        /* ===== BUTTON GRID ===== */
+        .btn-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 4px;
+        }
+
+        /* Scientific rows – hidden by default */
+        .sci-rows {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            margin-bottom: 10px;
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.3s ease,
+                margin 0.3s ease;
+            pointer-events: none;
+        }
+        .sci-rows.open {
+            max-height: 400px;
+            opacity: 1;
+            margin-bottom: 14px;
+            pointer-events: auto;
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 6px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            border: none;
+            border-radius: 14px;
+            background: #f1f5f9;
+            color: #1e293b;
+            cursor: pointer;
+            transition: background 0.15s, transform 0.1s, box-shadow 0.15s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+            font-family: inherit;
+            line-height: 1;
+            min-height: 52px;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            position: relative;
+        }
+        .btn:hover {
+            background: #e2e8f0;
+        }
+        .btn:active {
+            transform: scale(0.94);
+            background: #cbd5e1;
+        }
+        .btn:focus-visible {
+            outline: 2px solid #3b82f6;
+            outline-offset: 2px;
+        }
+
+        /* Number buttons */
+        .btn-number {
+            background: #ffffff;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            border: 1px solid #eef2f6;
+        }
+        .btn-number:hover {
+            background: #f8fafc;
+            border-color: #d1d9e6;
+        }
+        .btn-number:active {
+            background: #eef2f6;
+        }
+
+        /* Operator buttons */
+        .btn-operator {
+            background: #eef2ff;
+            color: #4f46e5;
+            font-weight: 700;
+        }
+        .btn-operator:hover {
+            background: #e0e7ff;
+        }
+        .btn-operator:active {
+            background: #c7d2fe;
+        }
+
+        /* Equals button */
+        .btn-equals {
+            background: #4f46e5;
+            color: white;
+            font-weight: 700;
+            font-size: 1.4rem;
+            box-shadow: 0 4px 14px rgba(79, 70, 229, 0.30);
+        }
+        .btn-equals:hover {
+            background: #4338ca;
+            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.35);
+        }
+        .btn-equals:active {
+            background: #3730a3;
+            transform: scale(0.94);
+        }
+
+        /* Clear button */
+        .btn-clear {
+            background: #fee2e2;
+            color: #b91c1c;
+            font-weight: 700;
+        }
+        .btn-clear:hover {
+            background: #fecaca;
+        }
+        .btn-clear:active {
+            background: #fca5a5;
+        }
+
+        /* Scientific buttons */
+        .btn-sci {
+            background: #f1f5f9;
+            color: #334155;
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 10px 4px;
+            min-height: 40px;
+            border-radius: 12px;
+            letter-spacing: 0.2px;
+        }
+        .btn-sci:hover {
+            background: #e2e8f0;
+        }
+        .btn-sci:active {
+            background: #cbd5e1;
+            transform: scale(0.94);
+        }
+        .btn-sci.memory {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        .btn-sci.memory:hover {
+            background: #fde68a;
+        }
+
+        /* Span 2 columns */
+        .btn-span-2 {
+            grid-column: span 2;
+        }
+
+        /* ===== AD SLOT – BOTTOM ===== */
+        .ad-slot-bottom {
+            background: #ffffffdd;
+            border-radius: 16px;
+            padding: 12px;
+            margin-top: 20px;
+            text-align: center;
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed #cbd5e1;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            font-size: 0.85rem;
+            color: #94a3b8;
+            transition: border-color 0.2s;
+            position: relative;
+        }
+        .ad-slot-bottom .ad-label {
+            position: absolute;
+            top: 4px;
+            right: 10px;
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #94a3b8;
+            background: #f1f5f9;
+            padding: 0 6px;
+            border-radius: 4px;
+        }
+        .ad-slot-bottom.adsbygoogle {
+            border-color: transparent;
+            background: transparent;
+            min-height: auto;
+            padding: 0;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 480px) {
+            body {
+                padding: 12px;
+            }
+            .calculator {
+                padding: 16px 14px 20px;
+                border-radius: 20px;
+            }
+            .display .result {
+                font-size: 1.8rem;
+                min-height: 2.6rem;
+            }
+            .display .expression {
+                font-size: 0.85rem;
+            }
+            .btn {
+                font-size: 0.95rem;
+                padding: 12px 4px;
+                min-height: 44px;
+                border-radius: 12px;
+            }
+            .btn-sci {
+                font-size: 0.7rem;
+                padding: 8px 2px;
+                min-height: 34px;
+            }
+            .btn-grid {
+                gap: 8px;
+            }
+            .sci-rows {
+                gap: 6px;
+            }
+            .calc-header h1 {
+                font-size: 1rem;
+            }
+            .ad-slot-top,
+            .ad-slot-bottom {
+                min-height: 70px;
+                padding: 8px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .btn {
+                font-size: 0.8rem;
+                padding: 10px 2px;
+                min-height: 38px;
+                border-radius: 10px;
+            }
+            .btn-sci {
+                font-size: 0.6rem;
+                padding: 6px 2px;
+                min-height: 30px;
+            }
+            .btn-grid {
+                gap: 6px;
+            }
+            .sci-rows {
+                gap: 4px;
+            }
+            .display .result {
+                font-size: 1.5rem;
+            }
+            .calculator {
+                padding: 12px 10px 16px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .app-wrapper {
+                max-width: 600px;
+            }
+            .btn:hover {
+                transform: translateY(-1px);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            }
+            .btn:active {
+                transform: scale(0.94) translateY(0);
+            }
+        }
+
+        /* ===== KEYBOARD HINT ===== */
+        .kb-hint {
+            text-align: center;
+            font-size: 0.6rem;
+            color: #94a3b8;
+            margin-top: 14px;
+            letter-spacing: 0.3px;
+            border-top: 1px solid #f1f5f9;
+            padding-top: 14px;
+            user-select: none;
+        }
+        .kb-hint kbd {
+            background: #f1f5f9;
+            padding: 1px 8px;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 0.6rem;
+            border: 1px solid #e2e8f0;
+            color: #475569;
+        }
+
+        /* ===== UTILITY ===== */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+
+        /* Dark mode support (optional) */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: #0f172a;
+            }
+            .calculator {
+                background: #1e293b;
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            }
+            .calc-header h1 {
+                background: linear-gradient(135deg, #e2e8f0, #f8fafc);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+            .calc-header .badge {
+                color: #94a3b8;
+                background: #334155;
+                border-color: #475569;
+            }
+            .display {
+                background: #0f172a;
+                border-color: #334155;
+            }
+            .display .expression {
+                color: #94a3b8;
+            }
+            .display .result {
+                color: #f8fafc;
+            }
+            .btn-number {
+                background: #1e293b;
+                border-color: #334155;
+                color: #e2e8f0;
+            }
+            .btn-number:hover {
+                background: #273548;
+                border-color: #475569;
+            }
+            .btn-number:active {
+                background: #334155;
+            }
+            .btn-operator {
+                background: #1e1b4b;
+                color: #818cf8;
+            }
+            .btn-operator:hover {
+                background: #2e2a6e;
+            }
+            .btn-operator:active {
+                background: #3b3599;
+            }
+            .btn-equals {
+                background: #4f46e5;
+            }
+            .btn-equals:hover {
+                background: #6366f1;
+            }
+            .btn-clear {
+                background: #7f1d1d;
+                color: #fca5a5;
+            }
+            .btn-clear:hover {
+                background: #991b1b;
+            }
+            .btn-clear:active {
+                background: #b91c1c;
+            }
+            .btn-sci {
+                background: #2d3748;
+                color: #cbd5e1;
+            }
+            .btn-sci:hover {
+                background: #3d4a5f;
+            }
+            .btn-sci:active {
+                background: #4a5a72;
+            }
+            .btn-sci.memory {
+                background: #78350f;
+                color: #fbbf24;
+            }
+            .btn-sci.memory:hover {
+                background: #92400e;
+            }
+            .mode-toggle label {
+                color: #94a3b8;
+            }
+            .toggle-switch {
+                background: #475569;
+            }
+            .toggle-switch.active {
+                background: #4f46e5;
+            }
+            .ad-slot-top,
+            .ad-slot-bottom {
+                background: #1e293bdd;
+                border-color: #334155;
+                color: #64748b;
+            }
+            .ad-slot-top .ad-label,
+            .ad-slot-bottom .ad-label {
+                background: #1e293b;
+                color: #64748b;
+            }
+            .kb-hint {
+                border-color: #334155;
+                color: #64748b;
+            }
+            .kb-hint kbd {
+                background: #2d3748;
+                border-color: #475569;
+                color: #94a3b8;
+            }
+            .display .memory-indicator {
+                color: #f59e0b;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-wrapper">
+
+        <!-- ===== AD SLOT – TOP ===== -->
+        <div class="ad-slot-top" id="ad-top">
+            <span class="ad-label">Ad</span>
+            <!-- Paste your AdSense unit code here, or leave as placeholder -->
+            <div style="font-size:0.75rem; color:#94a3b8;">
+                <ins class="adsbygoogle"
+                style="display:block"
+                data-ad-client="ca-pub-xxxxxxxxxxxxxxxx"
+                data-ad-slot="xxxxxxxxxx"
+                data-ad-format="auto"
+                data-full-width-responsive="true"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+            <span style="font-size:0.7rem; color:#cbd5e1;">Advertisement</span>
+        </div>
+
+        <!-- ===== CALCULATOR ===== -->
+        <div class="calculator" role="application" aria-label="Scientific Calculator">
+
+            <header class="calc-header">
+                <h1>🧮 Calculator</h1>
+                <span class="badge">v2.0</span>
+            </header>
+
+            <!-- Mode Toggle -->
+            <div class="mode-toggle">
+                <label for="sciToggle">Scientific</label>
+                <div class="toggle-switch" id="sciToggle" role="button" tabindex="0" aria-label="Toggle scientific mode" aria-checked="false">
+                    <div class="knob"></div>
+                </div>
+            </div>
+
+            <!-- Display -->
+            <div class="display" id="display">
+                <span class="memory-indicator" id="memIndicator">M</span>
+                <div class="expression" id="expression" aria-label="Expression" contenteditable="false"></div>
+                <div class="result" id="result" aria-label="Result" contenteditable="false">0</div>
+            </div>
+
+            <!-- Scientific Rows -->
+            <div class="sci-rows" id="sciRows">
+
+                <!-- Row: Memory + parentheses -->
+                <button class="btn btn-sci memory" data-action="mc">MC</button>
+                <button class="btn btn-sci memory" data-action="mr">MR</button>
+                <button class="btn btn-sci memory" data-action="mplus">M+</button>
+                <button class="btn btn-sci memory" data-action="mminus">M−</button>
+                <button class="btn btn-sci" data-action="lparen">(</button>
+
+                <!-- Row: Trig & Log -->
+                <button class="btn btn-sci" data-action="sin">sin</button>
+                <button class="btn btn-sci" data-action="cos">cos</button>
+                <button class="btn btn-sci" data-action="tan">tan</button>
+                <button class="btn btn-sci" data-action="log">log</button>
+                <button class="btn btn-sci" data-action="ln">ln</button>
+
+                <!-- Row: Power & Root -->
+                <button class="btn btn-sci" data-action="square">x²</button>
+                <button class="btn btn-sci" data-action="cube">x³</button>
+                <button class="btn btn-sci" data-action="sqrt">√</button>
+                <button class="btn btn-sci" data-action="tenx">10ˣ</button>
+                <button class="btn btn-sci" data-action="expx">eˣ</button>
+
+                <!-- Row: Constants & Misc -->
+                <button class="btn btn-sci" data-action="pi">π</button>
+                <button class="btn btn-sci" data-action="euler">e</button>
+                <button class="btn btn-sci" data-action="inv">1/x</button>
+                <button class="btn btn-sci" data-action="rparen">)</button>
+                <button class="btn btn-sci" data-action="power">xⁿ</button>
+
+            </div>
+
+            <!-- Main Button Grid -->
+            <div class="btn-grid" id="btnGrid">
+
+                <!-- Row 1 -->
+                <button class="btn btn-clear" data-action="clear">C</button>
+                <button class="btn btn-operator" data-action="negate">±</button>
+                <button class="btn btn-operator" data-action="percent">%</button>
+                <button class="btn btn-operator" data-action="divide">÷</button>
+
+                <!-- Row 2 -->
+                <button class="btn btn-number" data-action="7">7</button>
+                <button class="btn btn-number" data-action="8">8</button>
+                <button class="btn btn-number" data-action="9">9</button>
+                <button class="btn btn-operator" data-action="multiply">×</button>
+
+                <!-- Row 3 -->
+                <button class="btn btn-number" data-action="4">4</button>
+                <button class="btn btn-number" data-action="5">5</button>
+                <button class="btn btn-number" data-action="6">6</button>
+                <button class="btn btn-operator" data-action="subtract">−</button>
+
+                <!-- Row 4 -->
+                <button class="btn btn-number" data-action="1">1</button>
+                <button class="btn btn-number" data-action="2">2</button>
+                <button class="btn btn-number" data-action="3">3</button>
+                <button class="btn btn-operator" data-action="add">+</button>
+
+                <!-- Row 5 -->
+                <button class="btn btn-number btn-span-2" data-action="0">0</button>
+                <button class="btn btn-number" data-action="decimal">.</button>
+                <button class="btn btn-equals" data-action="equals">=</button>
+
+            </div>
+
+            <!-- Keyboard hint -->
+            <div class="kb-hint">
+                ⌨️ Keyboard supported &nbsp;·&nbsp; <kbd>Enter</kbd> = &nbsp; <kbd>Esc</kbd> Clear
+            </div>
+
+        </div>
+
+        <!-- ===== AD SLOT – BOTTOM ===== -->
+        <div class="ad-slot-bottom" id="ad-bottom">
+            <span class="ad-label">Ad</span>
+            <!-- Paste your AdSense unit code here, or leave as placeholder -->
+            <div style="font-size:0.75rem; color:#94a3b8;">
+                <ins class="adsbygoogle"
+                style="display:block"
+                data-ad-client="ca-pub-xxxxxxxxxxxxxxxx"
+                data-ad-slot="xxxxxxxxxx"
+                data-ad-format="auto"
+                data-full-width-responsive="true"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+            <span style="font-size:0.7rem; color:#cbd5e1;">Advertisement</span>
+        </div>
+
+    </div>
+
+    <script>
+        (function() {
+            'use strict';
+
+            // ============================================================
+            //  CALCULATOR ENGINE
+            // ============================================================
+
+            const state = {
+                expression: '',
+                result: '0',
+                memory: null,
+                hasMemory: false,
+                justEvaluated: false,
+                openParens: 0,
+                lastAction: null,
+                history: [],
+            };
+
+            // DOM refs
+            const exprEl = document.getElementById('expression');
+            const resultEl = document.getElementById('result');
+            const memIndicator = document.getElementById('memIndicator');
+            const sciRows = document.getElementById('sciRows');
+            const sciToggle = document.getElementById('sciToggle');
+
+            // ============================================================
+            //  UPDATE DISPLAY
+            // ============================================================
+
+            function updateDisplay() {
+                exprEl.textContent = state.expression || ' ';
+                resultEl.textContent = state.result || '0';
+                if (state.result === 'Error' || state.result === 'Infinity' || state.result === 'NaN') {
+                    resultEl.classList.add('error');
+                } else {
+                    resultEl.classList.remove('error');
+                }
+                memIndicator.classList.toggle('show', state.hasMemory);
+                // Scroll expression to end
+                exprEl.scrollLeft = exprEl.scrollWidth;
+            }
+
+            // ============================================================
+            //  EVALUATE
+            // ============================================================
+
+            function evaluate(expr) {
+                try {
+                    // Replace display symbols with JS equivalents
+                    let sanitized = expr
+                        .replace(/×/g, '*')
+                        .replace(/÷/g, '/')
+                        .replace(/−/g, '-')
+                        .replace(/π/g, `(${Math.PI})`)
+                        .replace(/e(?![xp])/g, `(${Math.E})`)
+                        // Handle scientific functions
+                        .replace(/sin\(/g, 'Math.sin(')
+                        .replace(/cos\(/g, 'Math.cos(')
+                        .replace(/tan\(/g, 'Math.tan(')
+                        .replace(/log\(/g, 'Math.log10(')
+                        .replace(/ln\(/g, 'Math.log(')
+                        .replace(/√\(/g, 'Math.sqrt(')
+                        .replace(/sqrt\(/g, 'Math.sqrt(')
+                        .replace(/square\(/g, 'Math.pow(') // will be handled as x²
+                        .replace(/cube\(/g, 'Math.pow(') // will be handled as x³
+                        .replace(/inv\(/g, '1/(')
+                        // Power operator: xⁿ → Math.pow
+                        .replace(/\^/g, '**');
+
+                    // Handle x², x³, xⁿ as postfix
+                    // We need to handle these carefully - they're applied to the preceding value
+                    // The button actions will insert the function notation
+
+                    // Safety: only allow safe characters
+                    const allowed = /^[\d+\-*/().% Math.sincotaneplogqrtwPIECONST]+$/;
+                    // But we already transformed, so do a more permissive check
+                    // Actually, let's just use Function constructor with sanitization
+
+                    // Additional safety: check for dangerous patterns
+                    if (/[;{}`]/.test(sanitized)) throw new Error('Invalid expression');
+
+                    // Use Function constructor for safe evaluation
+                    const fn = new Function(`return (${sanitized})`);
+                    const result = fn();
+
+                    if (typeof result !== 'number' || !isFinite(result)) {
+                        return 'Error';
+                    }
+                    // Round to avoid floating point issues
+                    const rounded = parseFloat(result.toPrecision(15));
+                    return String(rounded);
+                } catch (_) {
+                    return 'Error';
+                }
+            }
+
+            // ============================================================
+            //  ACTIONS
+            // ============================================================
+
+            function handleAction(action, value) {
+                const expr = state.expression;
+                const result = state.result;
+
+                // If just evaluated and user types a number, start fresh
+                if (state.justEvaluated && /^[0-9.]$/.test(value)) {
+                    state.expression = '';
+                    state.result = '0';
+                    state.justEvaluated = false;
+                }
+
+                // If just evaluated and user presses operator, use result as first operand
+                if (state.justEvaluated && /^[+\-*/]$/.test(value)) {
+                    state.expression = state.result + value;
+                    state.result = '0';
+                    state.justEvaluated = false;
+                    updateDisplay();
+                    return;
+                }
+
+                switch (action) {
+                    // ---- Numbers ----
+                    case '0':
+                    case '1':
+                    case '2':
+                    case '3':
+                    case '4':
+                    case '5':
+                    case '6':
+                    case '7':
+                    case '8':
+                    case '9':
+                        if (state.justEvaluated) {
+                            state.expression = '';
+                            state.result = '0';
+                            state.justEvaluated = false;
+                        }
+                        state.expression += value;
+                        state.result = evaluate(state.expression) || '0';
+                        updateDisplay();
+                        break;
+
+                    case 'decimal':
+                        if (state.justEvaluated) {
+                            state.expression = '0.';
+                            state.result = '0';
+                            state.justEvaluated = false;
+                        } else {
+                            // Find the last number in the expression and check if it already has a decimal
+                            const lastNum = state.expression.split(/[\+\-\*\/\(\)]/).pop() || '';
+                            if (lastNum.includes('.')) {
+                                // Already has decimal, do nothing
+                                return;
+                            }
+                            state.expression += '.';
+                        }
+                        state.result = evaluate(state.expression) || '0';
+                        updateDisplay();
+                        break;
+
+                        // ---- Operators ----
+                    case 'add':
+                        state.expression += '+';
+                        state.justEvaluated = false;
+                        updateDisplay();
+                        break;
+                    case 'subtract':
+                        state.expression += '−';
+                        state.justEvaluated = false;
+                        updateDisplay();
+                        break;
+                    case 'multiply':
+                        state.expression += '×';
+                        state.justEvaluated = false;
+                        updateDisplay();
+                        break;
+                    case 'divide':
+                        state.expression += '÷';
+                        state.justEvaluated = false;
+                        updateDisplay();
+                        break;
+
+                    case 'percent':
+                        if (state.expression) {
+                            try {
+                                const val = parseFloat(state.result) || 0;
+                                const pct = val / 100;
+                                state.expression = String(pct);
+                                state.result = String(pct);
+                                state.justEvaluated = true;
+                            } catch (_) {
+                                state.result = 'Error';
+                            }
+                            updateDisplay();
+                        }
+                        break;
+
+                    case 'negate':
+                        if (state.expression) {
+                            try {
+                                const val = parseFloat(state.result) || 0;
+                                const neg = -val;
+                                state.expression = String(neg);
+                                state.result = String(neg);
+                                state.justEvaluated = true;
+                            } catch (_) {
+                                state.result = 'Error';
+                            }
+                            updateDisplay();
+                        } else {
+                            state.expression = '-';
+                            updateDisplay();
+                        }
+                        break;
+
+                        // ---- Equals ----
+                    case 'equals':
+                        if (state.expression) {
+                            const evalResult = evaluate(state.expression);
+                            state.result = evalResult;
+                            state.expression = state.expression + ' =';
+                            state.justEvaluated = true;
+                            // Animate result
+                            resultEl.classList.remove('pop');
+                            void resultEl.offsetWidth;
+                            resultEl.classList.add('pop');
+                            updateDisplay();
+                        }
+                        break;
+
+                        // ---- Clear ----
+                    case 'clear':
+                        state.expression = '';
+                        state.result = '0';
+                        state.justEvaluated = false;
+                        updateDisplay();
+                        break;
+
+                        // ---- Parentheses ----
+                    case 'lparen':
+                        state.expression += '(';
+                        state.openParens++;
+                        state.justEvaluated = false;
+                        updateDisplay();
+                        break;
+                    case 'rparen':
+                        if (state.openParens > 0) {
+                            state.expression += ')';
+                            state.openParens--;
+                            state.justEvaluated = false;
+                            updateDisplay();
+                        }
+                        break;
+
+                        // ---- Scientific ----
+                    case 'sin':
+                        state.expression += 'sin(';
+                        updateDisplay();
+                        break;
+                    case 'cos':
+                        state.expression += 'cos(';
+                        updateDisplay();
+                        break;
+                    case 'tan':
+                        state.expression += 'tan(';
+                        updateDisplay();
+                        break;
+                    case 'log':
+                        state.expression += 'log(';
+                        updateDisplay();
+                        break;
+                    case 'ln':
+                        state.expression += 'ln(';
+                        updateDisplay();
+                        break;
+                    case 'sqrt':
+                        state.expression += '√(';
+                        updateDisplay();
+                        break;
+                    case 'square':
+                        // Apply square to the current result or expression
+                        if (state.expression) {
+                            const val = parseFloat(state.result) || 0;
+                            const sq = val * val;
+                            state.expression = String(sq);
+                            state.result = String(sq);
+                            state.justEvaluated = true;
+                            updateDisplay();
+                        }
+                        break;
+                    case 'cube':
+                        if (state.expression) {
+                            const val = parseFloat(state.result) || 0;
+                            const cu = val * val * val;
+                            state.expression = String(cu);
+                            state.result = String(cu);
+                            state.justEvaluated = true;
+                            updateDisplay();
+                        }
+                        break;
+                    case 'power':
+                        state.expression += '^';
+                        state.justEvaluated = false;
+                        updateDisplay();
+                        break;
+                    case 'tenx':
+                        if (state.expression) {
+                            const val = parseFloat(state.result) || 0;
+                            const res = Math.pow(10, val);
+                            state.expression = String(res);
+                            state.result = String(res);
+                            state.justEvaluated = true;
+                            updateDisplay();
+                        }
+                        break;
+                    case 'expx':
+                        if (state.expression) {
+                            const val = parseFloat(state.result) || 0;
+                            const res = Math.exp(val);
+                            state.expression = String(res);
+                            state.result = String(res);
+                            state.justEvaluated = true;
+                            updateDisplay();
+                        }
+                        break;
+                    case 'inv':
+                        if (state.expression) {
+                            const val = parseFloat(state.result) || 0;
+                            if (val === 0) {
+                                state.result = 'Error';
+                            } else {
+                                const res = 1 / val;
+                                state.expression = String(res);
+                                state.result = String(res);
+                                state.justEvaluated = true;
+                            }
+                            updateDisplay();
+                        }
+                        break;
+                    case 'pi':
+                        state.expression += 'π';
+                        state.justEvaluated = false;
+                        updateDisplay();
+                        break;
+                    case 'euler':
+                        state.expression += 'e';
+                        state.justEvaluated = false;
+                        updateDisplay();
+                        break;
+
+                        // ---- Memory ----
+                    case 'mc':
+                        state.memory = null;
+                        state.hasMemory = false;
+                        updateDisplay();
+                        break;
+                    case 'mr':
+                        if (state.hasMemory && state.memory !== null) {
+                            state.expression = String(state.memory);
+                            state.result = String(state.memory);
+                            state.justEvaluated = true;
+                            updateDisplay();
+                        }
+                        break;
+                    case 'mplus':
+                        if (state.expression) {
+                            const val = parseFloat(state.result) || 0;
+                            state.memory = (state.memory || 0) + val;
+                            state.hasMemory = true;
+                            updateDisplay();
+                        }
+                        break;
+                    case 'mminus':
+                        if (state.expression) {
+                            const val = parseFloat(state.result) || 0;
+                            state.memory = (state.memory || 0) - val;
+                            state.hasMemory = true;
+                            updateDisplay();
+                        }
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+
+            // ============================================================
+            //  SCIENTIFIC TOGGLE
+            // ============================================================
+
+            let sciMode = false;
+
+            function toggleScientific(open) {
+                sciMode = (open !== undefined) ? open : !sciMode;
+                sciRows.classList.toggle('open', sciMode);
+                sciToggle.classList.toggle('active', sciMode);
+                sciToggle.setAttribute('aria-checked', String(sciMode));
+            }
+
+            sciToggle.addEventListener('click', function(e) {
+                e.stopPropagation();
+                toggleScientific();
+            });
+
+            sciToggle.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggleScientific();
+                }
+            });
+
+            // ============================================================
+            //  BUTTON EVENT BINDING
+            // ============================================================
+
+            document.querySelectorAll('.btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    const action = this.dataset.action;
+                    if (action) {
+                        const val = this.textContent.trim();
+                        // For number buttons, use the text content
+                        if (/^[0-9]$/.test(val)) {
+                            handleAction(action, val);
+                        } else if (action === 'decimal') {
+                            handleAction('decimal', '.');
+                        } else {
+                            handleAction(action, val);
+                        }
+                        // Vibrate on mobile if supported
+                        if (navigator.vibrate) navigator.vibrate(6);
+                    }
+                });
+
+                // Prevent context menu on long press
+                btn.addEventListener('contextmenu', e => e.preventDefault());
+            });
+
+            // ============================================================
+            //  KEYBOARD SUPPORT
+            // ============================================================
+
+            document.addEventListener('keydown', function(e) {
+                const key = e.key;
+
+                // Prevent default for calculator keys
+                const controlKeys = ['Enter', 'Escape', 'Backspace', 'Delete', 'Tab'];
+                if (controlKeys.includes(key) || /^[0-9.+\-*/%^()]$/.test(key)) {
+                    e.preventDefault();
+                }
+
+                // Numbers
+                if (/^[0-9]$/.test(key)) {
+                    handleAction(key, key);
+                    return;
+                }
+
+                // Decimal
+                if (key === '.') {
+                    handleAction('decimal', '.');
+                    return;
+                }
+
+                // Operators
+                switch (key) {
+                    case '+':
+                        handleAction('add', '+');
+                        break;
+                    case '-':
+                        handleAction('subtract', '−');
+                        break;
+                    case '*':
+                        handleAction('multiply', '×');
+                        break;
+                    case '/':
+                        handleAction('divide', '÷');
+                        break;
+                    case '%':
+                        handleAction('percent', '%');
+                        break;
+                    case '^':
+                        handleAction('power', '^');
+                        break;
+                    case '(':
+                        handleAction('lparen', '(');
+                        break;
+                    case ')':
+                        handleAction('rparen', ')');
+                        break;
+                    case 'Enter':
+                    case '=':
+                        handleAction('equals', '=');
+                        break;
+                    case 'Escape':
+                    case 'Delete':
+                    case 'c':
+                    case 'C':
+                        handleAction('clear', 'C');
+                        break;
+                    case 'Backspace':
+                        // Remove last character
+                        if (state.expression && !state.justEvaluated) {
+                            state.expression = state.expression.slice(0, -1);
+                            state.result = state.expression ? evaluate(state.expression) || '0' : '0';
+                            updateDisplay();
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            });
+
+            // ============================================================
+            //  INIT
+            // ============================================================
+
+            // Set initial state
+            updateDisplay();
+
+            // Make state available for debugging
+            window.__calcState = state;
+
+            console.log('🧮 Calculator initialized.');
+            console.log('💡 Tip: Press "Scientific" toggle for advanced functions.');
+
+            // If AdSense is configured, the ads will render automatically.
+            // For demo, we show placeholder labels.
+
+        })();
+    </script>
+
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ToolHub – Free Online Image & PDF Tools</title>
+    <meta name="description" content="Free online tools for images and PDFs. Compress, resize, convert, merge, split and more. All tools are 100% free and easy to use." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+        /* ======================================================
+                   RESET & BASE
+                ====================================================== */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --primary: #6c5ce7;
+            --primary-dark: #5a4bd1;
+            --primary-light: #a29bfe;
+            --secondary: #00cec9;
+            --accent: #fd79a8;
+            --gradient-1: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
+            --gradient-2: linear-gradient(135deg, #00cec9 0%, #55efc4 100%);
+            --gradient-3: linear-gradient(135deg, #fd79a8 0%, #fdcb6e 100%);
+            --gradient-hero: linear-gradient(135deg, #0c0c1d 0%, #1a1a3e 50%, #2d1b4e 100%);
+            --text-primary: #0c0c1d;
+            --text-secondary: #4a4a6a;
+            --text-light: #8a8aaa;
+            --bg-white: #ffffff;
+            --bg-gray: #f8f9fe;
+            --shadow-sm: 0 2px 8px rgba(108, 92, 231, 0.08);
+            --shadow-md: 0 8px 30px rgba(108, 92, 231, 0.12);
+            --shadow-lg: 0 20px 60px rgba(108, 92, 231, 0.18);
+            --shadow-hover: 0 16px 48px rgba(108, 92, 231, 0.22);
+            --radius-sm: 12px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --radius-xl: 32px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font);
+            color: var(--text-primary);
+            background: var(--bg-white);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        img {
+            max-width: 100%;
+            display: block;
+        }
+        .container {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ======================================================
+                   BUTTONS
+                ====================================================== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 32px;
+            border: none;
+            border-radius: 60px;
+            font-family: var(--font);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: var(--gradient-1);
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(108, 92, 231, 0.35);
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 32px rgba(108, 92, 231, 0.45);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.12);
+            color: #fff;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.22);
+            transform: translateY(-3px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+        .btn-outline:hover {
+            background: var(--primary);
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(108, 92, 231, 0.30);
+        }
+
+        .btn-sm {
+            padding: 10px 22px;
+            font-size: 0.875rem;
+        }
+
+        /* ======================================================
+                   HEADER / NAV
+                ====================================================== */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 16px 0;
+            background: rgba(255, 255, 255, 0.82);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(108, 92, 231, 0.08);
+            transition: var(--transition);
+        }
+        .header.scrolled {
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.06);
+        }
+
+        .header .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 800;
+            font-size: 1.4rem;
+            color: var(--text-primary);
+        }
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-1);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 1.2rem;
+        }
+        .logo span {
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            list-style: none;
+        }
+        .nav-links a {
+            font-weight: 500;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            transition: var(--transition);
+            position: relative;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-1);
+            transition: var(--transition);
+            border-radius: 4px;
+        }
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        .nav-links .btn {
+            margin-left: 4px;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 6px;
+            background: none;
+            border: none;
+        }
+        .hamburger span {
+            width: 28px;
+            height: 3px;
+            background: var(--text-primary);
+            border-radius: 4px;
+            transition: var(--transition);
+        }
+
+        /* ======================================================
+                   HERO
+                ====================================================== */
+        .hero {
+            padding: 140px 0 80px;
+            background: var(--gradient-hero);
+            position: relative;
+            overflow: hidden;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 20% 50%, rgba(108, 92, 231, 0.25) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, rgba(0, 206, 201, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 80%, rgba(253, 121, 168, 0.10) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        /* floating orbs */
+        .hero .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            pointer-events: none;
+            animation: floatOrb 12s ease-in-out infinite alternate;
+        }
+        .hero .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: #6c5ce7;
+            top: -100px;
+            right: -100px;
+            animation-delay: 0s;
+        }
+        .hero .orb-2 {
+            width: 300px;
+            height: 300px;
+            background: #00cec9;
+            bottom: -80px;
+            left: -60px;
+            animation-delay: 4s;
+        }
+        .hero .orb-3 {
+            width: 200px;
+            height: 200px;
+            background: #fd79a8;
+            top: 40%;
+            left: 50%;
+            animation-delay: 8s;
+        }
+
+        @keyframes floatOrb {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                transform: translate(40px, -30px) scale(1.2);
+            }
+        }
+
+        .hero .container {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-size: clamp(2.6rem, 5vw, 4rem);
+            font-weight: 800;
+            color: #fff;
+            line-height: 1.12;
+            letter-spacing: -0.02em;
+        }
+        .hero-content h1 .highlight {
+            background: var(--gradient-2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero-content h1 .highlight2 {
+            background: var(--gradient-3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-content p {
+            font-size: 1.15rem;
+            color: rgba(255, 255, 255, 0.75);
+            margin: 20px 0 36px;
+            max-width: 500px;
+            line-height: 1.7;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 40px;
+            margin-top: 48px;
+            padding-top: 32px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .hero-stats .stat {
+            display: flex;
+            flex-direction: column;
+        }
+        .hero-stats .stat-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #fff;
+        }
+        .hero-stats .stat-label {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: 500;
+        }
+
+        .hero-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-grid-preview {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            width: 100%;
+            max-width: 420px;
+        }
+        .hero-grid-preview .preview-card {
+            background: rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: var(--radius-md);
+            padding: 20px 16px;
+            text-align: center;
+            transition: var(--transition);
+            color: #fff;
+        }
+        .hero-grid-preview .preview-card:hover {
+            background: rgba(255, 255, 255, 0.14);
+            transform: translateY(-4px);
+        }
+        .hero-grid-preview .preview-card i {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            display: block;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero-grid-preview .preview-card span {
+            font-size: 0.75rem;
+            font-weight: 500;
+            opacity: 0.8;
+            display: block;
+        }
+
+        /* ======================================================
+                   SECTION COMMON
+                ====================================================== */
+        .section {
+            padding: 80px 0;
+        }
+        .section-header {
+            text-align: center;
+            max-width: 640px;
+            margin: 0 auto 56px;
+        }
+        .section-header .tag {
+            display: inline-block;
+            background: rgba(108, 92, 231, 0.12);
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 4px 16px;
+            border-radius: 40px;
+            margin-bottom: 12px;
+        }
+        .section-header h2 {
+            font-size: clamp(2rem, 3.2vw, 2.8rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+        }
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            margin-top: 12px;
+        }
+
+        .section.bg-gray {
+            background: var(--bg-gray);
+        }
+
+        /* ======================================================
+                   TOOL GRID
+                ====================================================== */
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .tool-card {
+            background: var(--bg-white);
+            border-radius: var(--radius-md);
+            padding: 28px 20px 24px;
+            text-align: center;
+            border: 1px solid rgba(108, 92, 231, 0.06);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--gradient-1);
+            opacity: 0;
+            transition: var(--transition);
+            border-radius: var(--radius-md);
+        }
+        .tool-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--primary-light);
+        }
+        .tool-card:hover::before {
+            opacity: 0.04;
+        }
+
+        .tool-card .icon-wrap {
+            width: 56px;
+            height: 56px;
+            margin: 0 auto 14px;
+            border-radius: var(--radius-sm);
+            background: rgba(108, 92, 231, 0.10);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--primary);
+            transition: var(--transition);
+        }
+        .tool-card:hover .icon-wrap {
+            background: var(--primary);
+            color: #fff;
+            transform: scale(1.05);
+        }
+
+        .tool-card .tool-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 4px;
+            position: relative;
+            z-index: 1;
+        }
+        .tool-card .tool-desc {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            position: relative;
+            z-index: 1;
+        }
+
+        .tool-card .badge-free {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            font-size: 0.55rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            color: #fff;
+            background: var(--gradient-2);
+            padding: 2px 10px;
+            border-radius: 30px;
+            z-index: 2;
+        }
+
+        /* ======================================================
+                   CATEGORY TABS / FILTER
+                ====================================================== */
+        .category-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 40px;
+        }
+        .category-tabs .tab {
+            padding: 10px 28px;
+            border-radius: 60px;
+            border: 2px solid rgba(108, 92, 231, 0.12);
+            background: transparent;
+            font-family: var(--font);
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .category-tabs .tab:hover {
+            border-color: var(--primary-light);
+            color: var(--primary);
+        }
+        .category-tabs .tab.active {
+            background: var(--gradient-1);
+            color: #fff;
+            border-color: var(--primary);
+            box-shadow: 0 4px 16px rgba(108, 92, 231, 0.30);
+        }
+
+        /* ======================================================
+                   FEATURES / WHY US
+                ====================================================== */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 30px;
+            margin-top: 20px;
+        }
+        .feature-item {
+            text-align: center;
+            padding: 24px 16px;
+            border-radius: var(--radius-md);
+            background: var(--bg-white);
+            border: 1px solid rgba(108, 92, 231, 0.06);
+            transition: var(--transition);
+        }
+        .feature-item:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+        .feature-item .fi-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            color: #fff;
+        }
+        .feature-item .fi-icon.purple {
+            background: var(--gradient-1);
+        }
+        .feature-item .fi-icon.teal {
+            background: var(--gradient-2);
+        }
+        .feature-item .fi-icon.pink {
+            background: var(--gradient-3);
+        }
+        .feature-item .fi-icon.orange {
+            background: linear-gradient(135deg, #fdcb6e, #e17055);
+        }
+        .feature-item h4 {
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .feature-item p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* ======================================================
+                   CTA
+                ====================================================== */
+        .cta-section {
+            background: var(--gradient-hero);
+            padding: 80px 0;
+            text-align: center;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 30% 50%, rgba(108, 92, 231, 0.25), transparent 60%);
+            pointer-events: none;
+        }
+        .cta-section .container {
+            position: relative;
+            z-index: 2;
+        }
+        .cta-section h2 {
+            font-size: clamp(2rem, 3vw, 2.8rem);
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+        .cta-section p {
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 540px;
+            margin: 0 auto 32px;
+            font-size: 1.1rem;
+        }
+        .cta-section .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 16px;
+        }
+
+        /* ======================================================
+                   FOOTER
+                ====================================================== */
+        .footer {
+            background: #0c0c1d;
+            color: rgba(255, 255, 255, 0.6);
+            padding: 48px 0 32px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .footer .container {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+        }
+        .footer-brand .logo {
+            color: #fff;
+            margin-bottom: 12px;
+        }
+        .footer-brand p {
+            font-size: 0.9rem;
+            max-width: 260px;
+        }
+        .footer h4 {
+            color: #fff;
+            font-weight: 600;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+        }
+        .footer ul {
+            list-style: none;
+        }
+        .footer ul li {
+            margin-bottom: 8px;
+        }
+        .footer ul a {
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+        .footer ul a:hover {
+            color: #fff;
+        }
+        .footer-bottom {
+            grid-column: 1 / -1;
+            padding-top: 24px;
+            margin-top: 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            text-align: center;
+            font-size: 0.85rem;
+        }
+
+        /* ======================================================
+                   RESPONSIVE
+                ====================================================== */
+        @media (max-width: 1024px) {
+            .hero .container {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 40px;
+            }
+            .hero-content p {
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .hero-actions {
+                justify-content: center;
+            }
+            .hero-stats {
+                justify-content: center;
+            }
+            .hero-grid-preview {
+                margin: 0 auto;
+            }
+        }
+
+        @media (max-width: 820px) {
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 280px;
+                height: 100vh;
+                background: var(--bg-white);
+                flex-direction: column;
+                justify-content: center;
+                gap: 24px;
+                padding: 40px 32px;
+                box-shadow: -8px 0 40px rgba(0, 0, 0, 0.08);
+                transition: var(--transition);
+                border-left: 1px solid rgba(108, 92, 231, 0.08);
+            }
+            .nav-links.open {
+                right: 0;
+            }
+            .nav-links a {
+                font-size: 1.1rem;
+            }
+            .hamburger {
+                display: flex;
+            }
+            .hamburger.open span:nth-child(1) {
+                transform: rotate(45deg) translate(6px, 6px);
+            }
+            .hamburger.open span:nth-child(2) {
+                opacity: 0;
+            }
+            .hamburger.open span:nth-child(3) {
+                transform: rotate(-45deg) translate(6px, -6px);
+            }
+
+            .hero {
+                padding: 120px 0 60px;
+                min-height: auto;
+            }
+
+            .footer .container {
+                grid-template-columns: 1fr 1fr;
+                gap: 32px;
+            }
+            .footer-brand {
+                grid-column: 1 / -1;
+            }
+        }
+
+        @media (max-width: 560px) {
+            .container {
+                padding: 0 16px;
+            }
+            .hero {
+                padding: 100px 0 48px;
+            }
+            .hero-grid-preview {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+                max-width: 320px;
+            }
+            .hero-grid-preview .preview-card {
+                padding: 14px 10px;
+            }
+            .hero-grid-preview .preview-card i {
+                font-size: 1.4rem;
+            }
+            .hero-grid-preview .preview-card span {
+                font-size: 0.65rem;
+            }
+            .hero-stats {
+                gap: 24px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .hero-stats .stat-number {
+                font-size: 1.4rem;
+            }
+
+            .tool-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 14px;
+            }
+            .tool-card {
+                padding: 20px 12px 16px;
+            }
+            .tool-card .icon-wrap {
+                width: 44px;
+                height: 44px;
+                font-size: 1.2rem;
+            }
+            .tool-card .tool-name {
+                font-size: 0.8rem;
+            }
+            .tool-card .tool-desc {
+                font-size: 0.7rem;
+            }
+
+            .section {
+                padding: 56px 0;
+            }
+            .section-header {
+                margin-bottom: 32px;
+            }
+            .section-header h2 {
+                font-size: 1.6rem;
+            }
+
+            .category-tabs .tab {
+                padding: 8px 18px;
+                font-size: 0.8rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 16px;
+            }
+
+            .footer .container {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .btn {
+                padding: 12px 24px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .tool-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+            .hero-grid-preview {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
+            }
+            .hero-grid-preview .preview-card {
+                padding: 10px 6px;
+            }
+        }
+
+        /* ======================================================
+                   ANIMATIONS
+                ====================================================== */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 0.6s ease forwards;
+        }
+        .fade-up:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+        .fade-up:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+        .fade-up:nth-child(4) {
+            animation-delay: 0.3s;
+        }
+        .fade-up:nth-child(5) {
+            animation-delay: 0.4s;
+        }
+        .fade-up:nth-child(6) {
+            animation-delay: 0.5s;
+        }
+
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================
+    HEADER
+    ============================================================ -->
+    <header class="header" id="header">
+        <div class="container">
+            <a href="#" class="logo">
+                <div class="logo-icon"><i class="fas fa-cubes"></i></div>
+                Tool<span>Hub</span>
+            </a>
+
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#tools">Tools</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="#" class="btn btn-primary btn-sm">Sign In</a></li>
+            </ul>
+
+            <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- ============================================================
+    HERO
+    ============================================================ -->
+    <section class="hero">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+
+        <div class="container">
+            <div class="hero-content">
+                <h1>
+                    Your <span class="highlight">Image</span> &amp;
+                    <span class="highlight2">PDF</span> Toolbox
+                </h1>
+                <p>
+                    Free, fast, and secure online tools to compress, convert, edit,
+                    and manage your images and PDFs — all in one place.
+                </p>
+                <div class="hero-actions">
+                    <a href="#tools" class="btn btn-primary">
+                        <i class="fas fa-rocket"></i> Explore Tools
+                    </a>
+                    <a href="#features" class="btn btn-secondary">
+                        <i class="fas fa-play-circle"></i> See How It Works
+                    </a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number">50+</span>
+                        <span class="stat-label">Free Tools</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">2M+</span>
+                        <span class="stat-label">Files Processed</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">100%</span>
+                        <span class="stat-label">Privacy Guaranteed</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <div class="hero-grid-preview">
+                    <div class="preview-card">
+                        <i class="fas fa-compress-alt"></i>
+                        <span>Compress</span>
+                    </div>
+                    <div class="preview-card">
+                        <i class="fas fa-expand-arrows-alt"></i>
+                        <span>Resize</span>
+                    </div>
+                    <div class="preview-card">
+                        <i class="fas fa-crop-alt"></i>
+                        <span>Crop</span>
+                    </div>
+                    <div class="preview-card">
+                        <i class="fas fa-file-pdf"></i>
+                        <span>Merge PDF</span>
+                    </div>
+                    <div class="preview-card">
+                        <i class="fas fa-cut"></i>
+                        <span>Split PDF</span>
+                    </div>
+                    <div class="preview-card">
+                        <i class="fas fa-sync-alt"></i>
+                        <span>Convert</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    TOOLS SECTION
+    ============================================================ -->
+    <section class="section" id="tools">
+        <div class="container">
+            <div class="section-header fade-up">
+                <span class="tag"><i class="fas fa-wrench"></i> All Tools</span>
+                <h2>Everything you need, <br />completely free</h2>
+                <p>Choose from our growing collection of image and PDF utilities — no sign-ups, no limits.</p>
+            </div>
+
+            <!-- Category Tabs -->
+            <div class="category-tabs fade-up">
+                <button class="tab active" data-category="all">All Tools</button>
+                <button class="tab" data-category="image">🖼️ Image Tools</button>
+                <button class="tab" data-category="pdf">📄 PDF Tools</button>
+            </div>
+
+            <!-- Tool Grid -->
+            <div class="tool-grid" id="toolGrid">
+                <!-- Image Tools -->
+                <div class="tool-card" data-category="image">
+                    <span class="badge-free">Free</span>
+                    <div class="icon-wrap"><i class="fas fa-compress-alt"></i></div>
+                    <div class="tool-name">Compress Image</div>
+                    <div class="tool-desc">Reduce file size without losing quality</div>
+                </div>
+                <div class="tool-card" data-category="image">
+                    <span class="badge-free">Free</span>
+                    <div class="icon-wrap"><i class="fas fa-expand-arrows-alt"></i></div>
+                    <div class="tool-name">Resize Image</div>
+                    <div class="tool-desc">Scale images to any dimension</div>
+                </div>
+                <div class="tool-card" data-category="image">
+                    <span class="badge-free">Free</span>
+                    <div class="icon-wrap"><i class="fas fa-crop-alt"></i></div>
+                    <div class="tool-name">Crop Image</div>
+                    <div class="tool-desc">Trim unwanted areas with precision</div>
+                </div>
+                <div class="tool-card" data-category="image">
+                    <span class="badge-free">Free</span>
+                    <div class="icon-wrap"><i class="fas fa-exchange-alt"></i></div>
+                    <div class="tool-name">Convert Format</div>
+                    <div class="tool-desc">JPG, PNG, WebP, SVG and more</div>
+                </div>
+                <div class="tool-card" data-category="image">
+                    <span class="badge-free">Free</span>
+                    <div class="icon-wrap"><i class="fas fa-undo-alt"></i></div>
+                    <div class="tool-name">Rotate Image</div>
+                    <div class="tool-desc">Rotate or flip images instantly</div>
+                </div>
+                <div class="tool-card" data-category="image">
+                    <span class="badge-free">Free</span>
+                    <div class="icon-wrap"><i class="fas fa-water"></i></div>
+                    <div class="tool-name">Add Watermark</div>
+                    <div class="tool-desc">Protect your images with text or logo</div>
+                </div>
+                <div class="tool-card" data-category="image">
+                    <span class="badge-free">Free</span>
+                    <div class="icon-wrap"><i class="fas fa-palette"></i></div>
+                    <div class="tool-name">Color Adjust</div>
+                    <div class="tool-desc">Brightness, contrast, saturation &amp; more</div>
+                </div>
+                <div class="tool-card" data-category="image">
+                    <span class="badge-free">Free</span>
+                    <div class="icon-wrap"><i class="fas fa-arrows-alt-h"></i></div>
+                    <div class="tool-name">Mirror Image</div>
+                    <div class="tool-desc">Flip horizontally or vertically</div>
+                </div>
+
+                <!-- PDF Tools -->
+                <div class="tool-card" data-category="pdf">
+                    <span class="badge-free">Free</span>
+                    <div class="icon-wrap"><i class="fas fa-object-group"></i></div>
+                    <div class="tool-name">Merge PDF</div>
+                    <div class="tool-desc">Combine multiple PDFs into one</div>
+                </div>
+                <div class="tool-card" data-category="pdf">
+                    <span class="badge-free">Free</span>
+                    <div class="icon-wrap"><i class="fas fa-cut"></i></div>
+                    <div class="tool-name">Split PDF</div>
+                    <div class="tool-desc">Extract pages or split by ranges</div>
+                </div>
+                <div class="tool-card" data-category="pdf">
+                    <span class="badge-free">Free</span>
+                    <div class="icon-wrap"><i class="fas fa-file-archive"></i></div>
+                    <div class="tool-name">Compress PDF</div>
+                    <div class="tool-desc">Reduce PDF size while preserving quality</div>
+                </div>
+                <div class="tool-card" data-category="pdf">
+                    <span class="badge-free">Free</span>
+                    <div class="icon-wrap"><i class="fas fa-file-export"></i></div>
+                    <div class="tool-name">PDF to Word</div>
+                    <div class="tool-desc">Convert PDF to editable Word documents</div>
+                </div>
+                <div class="tool-card" data-category="pdf">
+                    <span class="badge-free">Free</span>
+                    <div class="icon-wrap"><i class="fas fa-file-import"></i></div>
+                    <div class="tool-name">Word to PDF</div>
+                    <div class="tool-desc">Convert Word files to PDF format</div>
+                </div>
+                <div class="tool-card" data-category="pdf">
+                    <span class="badge-free">Free</span>
+                    <div class="icon-wrap"><i class="fas fa-file-image"></i></div>
+                    <div class="tool-name">PDF to Image</div>
+                    <div class="tool-desc">Extract images from PDF pages</div>
+                </div>
+                <div class="tool-card" data-category="pdf">
+                    <span class="badge-free">Free</span>
+                    <div class="icon-wrap"><i class="fas fa-lock"></i></div>
+                    <div class="tool-name">Protect PDF</div>
+                    <div class="tool-desc">Add password protection to PDFs</div>
+                </div>
+                <div class="tool-card" data-category="pdf">
+                    <span class="badge-free">Free</span>
+                    <div class="icon-wrap"><i class="fas fa-unlock"></i></div>
+                    <div class="tool-name">Unlock PDF</div>
+                    <div class="tool-desc">Remove PDF password restrictions</div>
+                </div>
+
+                <!-- More image tools -->
+                <div class="tool-card" data-category="image">
+                    <span class="badge-free">Free</span>
+                    <div class="icon-wrap"><i class="fas fa-image"></i></div>
+                    <div class="tool-name">Image to PDF</div>
+                    <div class="tool-desc">Convert images to PDF documents</div>
+                </div>
+                <div class="tool-card" data-category="image">
+                    <span class="badge-free">Free</span>
+                    <div class="icon-wrap"><i class="fas fa-file-alt"></i></div>
+                    <div class="tool-name">PDF to Image</div>
+                    <div class="tool-desc">Convert PDF pages to images</div>
+                </div>
+                <div class="tool-card" data-category="pdf">
+                    <span class="badge-free">Free</span>
+                    <div class="icon-wrap"><i class="fas fa-layer-group"></i></div>
+                    <div class="tool-name">Organize PDF</div>
+                    <div class="tool-desc">Reorder, rotate, and delete pages</div>
+                </div>
+                <div class="tool-card" data-category="pdf">
+                    <span class="badge-free">Free</span>
+                    <div class="icon-wrap"><i class="fas fa-edit"></i></div>
+                    <div class="tool-name">Edit PDF</div>
+                    <div class="tool-desc">Edit text and images in PDF</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    FEATURES / WHY US
+    ============================================================ -->
+    <section class="section bg-gray" id="features">
+        <div class="container">
+            <div class="section-header fade-up">
+                <span class="tag"><i class="fas fa-star"></i> Why ToolHub</span>
+                <h2>Built for speed, privacy, and ease</h2>
+                <p>Every tool is designed to be fast, secure, and completely free — no tricks, no subscriptions.</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-item fade-up">
+                    <div class="fi-icon purple"><i class="fas fa-bolt"></i></div>
+                    <h4>Lightning Fast</h4>
+                    <p>Process files in seconds with our optimized serverless architecture.</p>
+                </div>
+                <div class="feature-item fade-up">
+                    <div class="fi-icon teal"><i class="fas fa-shield-alt"></i></div>
+                    <h4>100% Private</h4>
+                    <p>Your files are never stored or shared. All processing happens in memory.</p>
+                </div>
+                <div class="feature-item fade-up">
+                    <div class="fi-icon pink"><i class="fas fa-infinity"></i></div>
+                    <h4>No Limits</h4>
+                    <p>No sign-ups, no upload caps, no hidden charges — use as much as you need.</p>
+                </div>
+                <div class="feature-item fade-up">
+                    <div class="fi-icon orange"><i class="fas fa-device"></i></div>
+                    <h4>Works Anywhere</h4>
+                    <p>Fully responsive design that works on desktop, tablet, and mobile.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    CTA
+    ============================================================ -->
+    <section class="cta-section" id="pricing">
+        <div class="container">
+            <h2>Start using our tools today</h2>
+            <p>Join millions of happy users who rely on ToolHub for their image and PDF needs. No account required.</p>
+            <div class="btn-group">
+                <a href="#tools" class="btn btn-primary">
+                    <i class="fas fa-arrow-right"></i> Browse All Tools
+                </a>
+                <a href="#" class="btn btn-secondary">
+                    <i class="fas fa-book"></i> View Documentation
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    FOOTER
+    ============================================================ -->
+    <footer class="footer" id="contact">
+        <div class="container">
+            <div class="footer-brand">
+                <a href="#" class="logo">
+                    <div class="logo-icon"><i class="fas fa-cubes"></i></div>
+                    Tool<span>Hub</span>
+                </a>
+                <p>Free online tools for images and PDFs. Built with ❤️ for everyone.</p>
+            </div>
+
+            <div>
+                <h4>Tools</h4>
+                <ul>
+                    <li><a href="#">Image Tools</a></li>
+                    <li><a href="#">PDF Tools</a></li>
+                    <li><a href="#">All Tools</a></li>
+                    <li><a href="#">New Tools</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Report Issue</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-bottom">
+                &copy; 2026 ToolHub. All rights reserved. Made with <i class="fas fa-heart" style="color:#fd79a8;"></i>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ============================================================
+    SCRIPTS
+    ============================================================ -->
+    <script>
+        // ============================================================
+        // HEADER SCROLL EFFECT
+        // ============================================================
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            header.classList.toggle('scrolled', window.scrollY > 40);
+        });
+
+        // ============================================================
+        // MOBILE HAMBURGER
+        // ============================================================
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('open');
+            navLinks.classList.toggle('open');
+        });
+
+        // Close menu when a link is clicked
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('open');
+                navLinks.classList.remove('open');
+            });
+        });
+
+        // ============================================================
+        // CATEGORY TABS
+        // ============================================================
+        const tabs = document.querySelectorAll('.tab');
+        const toolCards = document.querySelectorAll('.tool-card');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+
+                const category = tab.dataset.category;
+
+                toolCards.forEach(card => {
+                    if (category === 'all') {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = card.dataset.category === category ? 'block' : 'none';
+                    }
+                });
+            });
+        });
+
+        // ============================================================
+        // TOOL CARD CLICK – SIMPLE ALERT (placeholder for tool page)
+        // ============================================================
+        toolCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const name = card.querySelector('.tool-name')?.textContent || 'Tool';
+                // In production, this would navigate to the tool page.
+                // For demo, we show a toast-like message.
+                // You can replace with actual navigation: window.location.href = '/tool/...';
+                showToast(`🔧 ${name} — coming soon!`);
+            });
+        });
+
+        // ============================================================
+        // TOAST NOTIFICATION
+        // ============================================================
+        function showToast(message) {
+            const existing = document.querySelector('.toast-notification');
+            if (existing) existing.remove();
+
+            const toast = document.createElement('div');
+            toast.className = 'toast-notification';
+            toast.textContent = message;
+            Object.assign(toast.style, {
+                position: 'fixed',
+                bottom: '30px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                background: '#0c0c1d',
+                color: '#fff',
+                padding: '14px 28px',
+                borderRadius: '60px',
+                fontFamily: 'Inter, sans-serif',
+                fontWeight: '600',
+                fontSize: '0.95rem',
+                boxShadow: '0 8px 40px rgba(0,0,0,0.25)',
+                zIndex: '9999',
+                opacity: '0',
+                transition: 'opacity 0.3s ease, transform 0.3s ease',
+                border: '1px solid rgba(255,255,255,0.08)',
+                backdropFilter: 'blur(12px)',
+                maxWidth: '90%',
+                textAlign: 'center',
+            });
+            document.body.appendChild(toast);
+
+            requestAnimationFrame(() => {
+                toast.style.opacity = '1';
+                toast.style.transform = 'translateX(-50%) translateY(0)';
+            });
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(-50%) translateY(12px)';
+                setTimeout(() => toast.remove(), 400);
+            }, 2200);
+        }
+
+        // ============================================================
+        // SMOOTH SCROLL FOR NAV LINKS
+        // ============================================================
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                const target = document.querySelector(targetId);
+                if (target) {
+                    e.preventDefault();
+                    const offset = 80;
+                    const top = target.getBoundingClientRect().top + window.scrollY - offset;
+                    window.scrollTo({ top, behavior: 'smooth' });
+                }
+            });
+        });
+
+        // ============================================================
+        // INTERSECTION OBSERVER – FADE-UP ANIMATIONS
+        // ============================================================
+        const fadeElements = document.querySelectorAll('.fade-up');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationPlayState = 'running';
+                }
+            });
+        }, { threshold: 0.15 });
+
+        fadeElements.forEach(el => {
+            el.style.animationPlayState = 'paused';
+            observer.observe(el);
+        });
+
+        // ============================================================
+        // KEYBOARD SHORTCUT: ESC to close menu
+        // ============================================================
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (navLinks.classList.contains('open')) {
+                    hamburger.classList.remove('open');
+                    navLinks.classList.remove('open');
+                }
+            }
+        });
+
+        console.log('🚀 ToolHub homepage loaded successfully!');
+        console.log('💡 Tip: Click any tool card to see a demo toast.');
+    </script>
+
+</body>
+</html>
